@@ -1,0 +1,9 @@
+[user]
+	email = flaviozg888@gmail.com
+	name = FlavioZanoni
+[mergetool "nvim"]
+	cmd = nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+[merge]
+	tool = nvim
+[init]
+	defaultBranch = main
