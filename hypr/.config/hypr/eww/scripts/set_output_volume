@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+if command -v wpctl > /dev/null 2>&1; then
+  wpctl set-volume @DEFAULT_SINK@ "$1"
+else
+  pactl set-sink-volume @DEFAULT_SINK@ "$1"
+fi
+
+CURRENT_VOLUME=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print $2 * 100}')
+# send notification with Hyprland
+notify-send -i audio-volume-high "Volume" "Volume set to $CURRENT_VOLUME%"

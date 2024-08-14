@@ -1,0 +1,3 @@
+$Gruvbox Bubbles Dark (Extra, Built-In) -> ~/.config/hypr/extra_themes/gruvbox_dark_bubbles;
+$Everforest Medium Dark Classic (Extra, Built-In) -> ~/.config/hypr/extra_themes/everforest_medium_dark_classic;
+$Nord Dark Extra (Extra, Built-In) -> ~/.config/hypr/extra_themes/nord_dark_extra;
