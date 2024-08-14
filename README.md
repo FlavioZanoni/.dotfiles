@@ -23,7 +23,7 @@ To get started with these dotfiles on your own machine, follow these steps:
 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/FlavioZanoni/.dotfiles.git ~/.dotfiles
+   git clone git@github.com:FlavioZanoni/.dotfiles.git ~/.dotfiles
    ```
 
 2. **Navigate to the Dotfiles Directory**
