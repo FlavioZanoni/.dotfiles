@@ -1,7 +1,3 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-
 if [ ! -S ~/.ssh/ssh_auth_sock ]; then
   eval "$(ssh-agent)"
   ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
@@ -11,10 +7,12 @@ fi
 # Set SSH_AUTH_SOCK environment variable
 export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
 
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
-
 
 ### Added by Zinit's installer
 if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
@@ -51,9 +49,17 @@ zinit ice depth=1; zinit light romkatv/powerlevel10k;
 zinit wait lucid for OMZL::git.zsh;
 . /opt/asdf-vm/asdf.sh
 ### End of Zinit's installer chunk
+
 export PATH="$PATH:$HOME/.local/share/bob/nvim-bin"
 eval "$(zoxide init zsh)"
-eval "$(atuin init zsh)"
+eval "$(atuin init zsh --disable-up-arrow)"
+
+# Aliases
+alias la="ls -la"
+alias dcu="docker-compose up"
+alias dcd="docker-compose down"
+# End of aliases
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
