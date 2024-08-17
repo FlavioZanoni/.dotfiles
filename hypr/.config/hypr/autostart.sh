@@ -53,6 +53,8 @@ blueman-applet &
 
 lxsession &
 
+hypridle &
+
 eval "sleep 2; hyprctl reload" &
 
 eval "sleep 0.5; killall flameshot; pkill flameshot" &
