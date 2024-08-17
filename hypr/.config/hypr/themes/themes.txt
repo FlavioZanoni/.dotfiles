@@ -7,3 +7,4 @@ $Rose Pine (Built-In) -> ~/.config/hypr/themes/rose_pine;
 $Catppuccin Frappé (Built-In) -> ~/.config/hypr/themes/catppuccin_frappé;
 $Gold (Built-In) -> ~/.config/hypr/themes/gold;
 $Black Gold (Built-In) -> ~/.config/hypr/themes/black_gold;
+$Gallon (Custom) -> ~/.config/hypr/themes/gallon;
