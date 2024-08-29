@@ -44,9 +44,9 @@ swww-daemon -f xrgb &
 
 swww img ~/.cache/hyprland_rice/theme/wallpaper.png -t none
 
-~/.config/hypr/waybar/start
 ~/.config/hypr/mako/start
 ~/.config/hypr/eww/start
+~/.config/hypr/waybar/start
 
 nm-applet &
 blueman-applet &

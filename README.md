@@ -7,7 +7,7 @@
 - **Zsh**: Custom shell configuration and settings.
 - **Neovim**: My Neovim setup, including plugins and keybindings.
 - **Git**: Configuration for Git.
-- **Hypr**: Hyperland configuration and keybindings.
+- **Hypr**: Hyprland configuration and keybindings.
 
 ## Setup
 
