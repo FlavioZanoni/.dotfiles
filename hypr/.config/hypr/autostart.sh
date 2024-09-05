@@ -46,7 +46,6 @@ swww img ~/.cache/hyprland_rice/theme/wallpaper.png -t none
 
 ~/.config/hypr/mako/start
 ~/.config/hypr/eww/start
-~/.config/hypr/waybar/start
 
 nm-applet &
 blueman-applet &
@@ -65,4 +64,6 @@ eval "sleep 2; killall flameshot; pkill flameshot" &
 
 run_hook post &
 
-hyprctl reload
+hyprctl reload &
+
+eval "sleep 0.5; ~/.config/hypr/waybar/start" 
