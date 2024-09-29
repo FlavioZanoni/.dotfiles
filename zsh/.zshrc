@@ -51,8 +51,8 @@ zinit wait lucid for OMZL::git.zsh;
 ### End of Zinit's installer chunk
 
 export PATH="$PATH:$HOME/.local/share/bob/nvim-bin"
-eval "$(zoxide init zsh)"
-eval "$(atuin init zsh --disable-up-arrow)"
+eval "$(zoxide init --cmd cd zsh)"
+eval "$(atuin init --disable-up-arrow zsh )"
 
 # Aliases
 alias la="ls -la"
