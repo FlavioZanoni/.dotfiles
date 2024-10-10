@@ -40,7 +40,7 @@ zinit snippet OMZP::command-not-found;
 zinit snippet OMZP::colored-man-pages;
 
 ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=50
-zinit ice wait lucid atload"_zsh_autosuggest_start; unalias zi"; zinit light zsh-users/zsh-autosuggestions
+zinit ice wait lucid atload"_zsh_autosuggest_start;"; zinit light zsh-users/zsh-autosuggestions
 zinit ice wait lucid; zinit light zsh-users/zsh-completions
 zinit ice wait lucid; zinit light zsh-users/zsh-syntax-highlighting
 zinit ice wait lucid; zinit light jeffreytse/zsh-vi-mode
@@ -52,13 +52,22 @@ zinit wait lucid for OMZL::git.zsh;
 
 export PATH="$PATH:$HOME/.local/share/bob/nvim-bin"
 eval "$(zoxide init --cmd cd zsh)"
-eval "$(atuin init --disable-up-arrow zsh )"
+eval "$(atuin init zsh --disable-up-arrow)"
 
 # Aliases
 alias la="ls -la"
 alias dcu="docker-compose up"
 alias dcd="docker-compose down"
+alias esp-dev='. $HOME/esp-idf/export.sh'
+alias esp='idf.py'
 # End of aliases
+mkdirc() {
+  if [ -z "$1" ]; then
+    echo "Error: Please provide a directory name"
+    return 1
+  fi
+  mkdir -p "$1" && cd "$1"
+}
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
