@@ -49,8 +49,9 @@ zinit ice depth=1; zinit light romkatv/powerlevel10k;
 zinit wait lucid for OMZL::git.zsh;
 . /opt/asdf-vm/asdf.sh
 ### End of Zinit's installer chunk
-
+export PATH="/home/$USER/.cargo/bin:$PATH"
 export PATH="$PATH:$HOME/.local/share/bob/nvim-bin"
+
 eval "$(zoxide init --cmd cd zsh)"
 eval "$(atuin init zsh --disable-up-arrow)"
 
