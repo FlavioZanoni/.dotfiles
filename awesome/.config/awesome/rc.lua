@@ -20,6 +20,8 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 local mytable = awful.util.table or gears.table -- 4.{0,1} compatibility
 
 awful.spawn.with_shell("setxkbmap -layout us -variant altgr-intl")
+-- Monitor handling
+awful.spawn.with_shell("sh ~/.config/awesome/monitors/monitors.sh")
 
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -199,9 +201,11 @@ awful.screen.connect_for_each_screen(function(s)
 	beautiful.at_screen_connect(s)
 end)
 
--- }}}
-
--- {{{ Mouse bindings
+awful.keyboard.append_global_keybindings({
+	awful.key({ modkey, "Shift" }, "m", function()
+		awful.spawn("autorandr --change")
+	end, { description = "reload monitor configuration", group = "system" }),
+})
 
 root.buttons(mytable.join(
 	awful.button({}, 3, function()
@@ -211,9 +215,7 @@ root.buttons(mytable.join(
 	awful.button({}, 5, awful.tag.viewprev)
 ))
 
--- }}}
-
--- {{{ Key bindings
+awful.key({ modkey, "Shift" }, "q", awesome.quit, { description = "quit awesome", group = "awesome" })
 
 globalkeys = mytable.join(
 	-- Destroy all notifications
