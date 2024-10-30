@@ -203,7 +203,7 @@ end)
 
 awful.keyboard.append_global_keybindings({
 	awful.key({ modkey, "Shift" }, "m", function()
-		awful.spawn("autorandr --change")
+		awful.spawn("~/.config/awesome/monitors/monitors.sh")
 	end, { description = "reload monitor configuration", group = "system" }),
 })
 
@@ -222,40 +222,22 @@ globalkeys = mytable.join(
 	awful.key({ "Control" }, "space", function()
 		naughty.destroy_all_notifications()
 	end, { description = "destroy all notifications", group = "hotkeys" }),
-	-- Take a screenshot
-	-- https://github.com/lcpz/dots/blob/master/bin/screenshot
-	awful.key({ altkey }, "p", function()
-		os.execute("screenshot")
-	end, { description = "take a screenshot", group = "hotkeys" }),
+
+	awful.key({ modkey, "Shift" }, "s", function()
+		awful.spawn.with_shell("~/.config/awesome/scripts/screenshot.sh")
+	end, { description = "take a screenshot of selected area to clipboard", group = "screenshot" }),
 
 	-- X screen locker
-	awful.key({ altkey, "Control" }, "l", function()
+	awful.key({ modkey }, "p", function()
 		os.execute(scrlocker)
 	end, { description = "lock screen", group = "hotkeys" }),
 
-	-- Show help
 	awful.key({ modkey }, "s", hotkeys_popup.show_help, { description = "show help", group = "awesome" }),
 
 	-- Tag browsing
 	awful.key({ modkey }, "Left", awful.tag.viewprev, { description = "view previous", group = "tag" }),
 	awful.key({ modkey }, "Right", awful.tag.viewnext, { description = "view next", group = "tag" }),
 	awful.key({ modkey }, "Escape", awful.tag.history.restore, { description = "go back", group = "tag" }),
-
-	-- Non-empty tag browsing
-	awful.key({ altkey }, "Left", function()
-		lain.util.tag_view_nonempty(-1)
-	end, { description = "view  previous nonempty", group = "tag" }),
-	awful.key({ altkey }, "Right", function()
-		lain.util.tag_view_nonempty(1)
-	end, { description = "view  previous nonempty", group = "tag" }),
-
-	-- Default client focus
-	awful.key({ altkey }, "j", function()
-		awful.client.focus.byidx(1)
-	end, { description = "focus next by index", group = "client" }),
-	awful.key({ altkey }, "k", function()
-		awful.client.focus.byidx(-1)
-	end, { description = "focus previous by index", group = "client" }),
 
 	-- By-direction client focus
 	awful.key({ modkey }, "j", function()
@@ -387,23 +369,6 @@ globalkeys = mytable.join(
 		awful.screen.focused().quake:toggle()
 	end, { description = "dropdown application", group = "launcher" }),
 
-	-- Widgets popups
-	awful.key({ altkey }, "c", function()
-		if beautiful.cal then
-			beautiful.cal.show(7)
-		end
-	end, { description = "show calendar", group = "widgets" }),
-	awful.key({ altkey }, "h", function()
-		if beautiful.fs then
-			beautiful.fs.show(7)
-		end
-	end, { description = "show filesystem", group = "widgets" }),
-	awful.key({ altkey }, "w", function()
-		if beautiful.weather then
-			beautiful.weather.show(7)
-		end
-	end, { description = "show weather", group = "widgets" }),
-
 	-- Screen brightness
 	awful.key({}, "XF86MonBrightnessUp", function()
 		os.execute("xbacklight -inc 10")
@@ -413,6 +378,14 @@ globalkeys = mytable.join(
 	end, { description = "-10%", group = "hotkeys" }),
 
 	-- ALSA volume control
+	awful.key({}, "XF86AudioRaiseVolume", function()
+		os.execute(string.format("amixer -q set %s 1%%+", beautiful.volume.channel))
+		beautiful.volume.update()
+	end, { description = "+1%", group = "hotkeys" }),
+	awful.key({}, "XF86AudioLowerVolume", function()
+		os.execute(string.format("amixer -q set %s 1%%-", beautiful.volume.channel))
+		beautiful.volume.update()
+	end, { description = "-1%", group = "hotkeys" }),
 	awful.key({ altkey }, "Up", function()
 		os.execute(string.format("amixer -q set %s 1%%+", beautiful.volume.channel))
 		beautiful.volume.update()
@@ -433,35 +406,6 @@ globalkeys = mytable.join(
 		os.execute(string.format("amixer -q set %s 0%%", beautiful.volume.channel))
 		beautiful.volume.update()
 	end, { description = "volume 0%", group = "hotkeys" }),
-
-	-- MPD control
-	awful.key({ altkey, "Control" }, "Up", function()
-		os.execute("mpc toggle")
-		beautiful.mpd.update()
-	end, { description = "mpc toggle", group = "widgets" }),
-	awful.key({ altkey, "Control" }, "Down", function()
-		os.execute("mpc stop")
-		beautiful.mpd.update()
-	end, { description = "mpc stop", group = "widgets" }),
-	awful.key({ altkey, "Control" }, "Left", function()
-		os.execute("mpc prev")
-		beautiful.mpd.update()
-	end, { description = "mpc prev", group = "widgets" }),
-	awful.key({ altkey, "Control" }, "Right", function()
-		os.execute("mpc next")
-		beautiful.mpd.update()
-	end, { description = "mpc next", group = "widgets" }),
-	awful.key({ altkey }, "0", function()
-		local common = { text = "MPD widget ", position = "top_middle", timeout = 2 }
-		if beautiful.mpd.timer.started then
-			beautiful.mpd.timer:stop()
-			common.text = common.text .. lain.util.markup.bold("OFF")
-		else
-			beautiful.mpd.timer:start()
-			common.text = common.text .. lain.util.markup.bold("ON")
-		end
-		naughty.notify(common)
-	end, { description = "mpc on/off", group = "widgets" }),
 
 	-- Copy primary to clipboard (terminals to gtk)
 	awful.key({ modkey }, "c", function()
@@ -648,8 +592,8 @@ awful.rules.rules = {
 		properties = { floating = true },
 	},
 
-	-- Add titlebars to normal clients and dialogs
-	{ rule_any = { type = { "normal", "dialog" } }, properties = { titlebars_enabled = true } },
+	-- titlebars
+	{ rule_any = { type = { "normal", "dialog" } }, properties = { titlebars_enabled = false } },
 
 	-- Set Firefox to always map on the tag named "2" on screen 1.
 	-- { rule = { class = "Firefox" },
