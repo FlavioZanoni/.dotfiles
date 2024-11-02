@@ -49,8 +49,15 @@ zinit ice depth=1; zinit light romkatv/powerlevel10k;
 zinit wait lucid for OMZL::git.zsh;
 . /opt/asdf-vm/asdf.sh
 ### End of Zinit's installer chunk
+
 export PATH="/home/$USER/.cargo/bin:$PATH"
 export PATH="$PATH:$HOME/.local/share/bob/nvim-bin"
+
+### Android
+export ANDROID_HOME=/opt/android-sdk
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
 
 eval "$(zoxide init --cmd cd zsh)"
 eval "$(atuin init zsh --disable-up-arrow)"
@@ -61,6 +68,9 @@ alias dcu="docker-compose up"
 alias dcd="docker-compose down"
 alias esp-dev='. $HOME/esp-idf/export.sh'
 alias esp='idf.py'
+alias mkpyenv="python -m venv python-env"
+alias pyenv="source ./python-env/bin/activate"
+alias py="python"
 # End of aliases
 mkdirc() {
   if [ -z "$1" ]; then
@@ -75,3 +85,7 @@ mkdirc() {
 
 # Created by `pipx` on 2024-08-09 02:54:44
 export PATH="$PATH:/home/flaggzz/.local/bin"
+
+# Java
+export JAVA_HOME=/usr/lib/jvm/java-17-openjdk
+export PATH=$JAVA_HOME/bin:$PATH

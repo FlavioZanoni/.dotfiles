@@ -21,7 +21,7 @@ local mytable = awful.util.table or gears.table -- 4.{0,1} compatibility
 
 awful.spawn.with_shell("setxkbmap -layout us -variant altgr-intl")
 -- Monitor handling
-awful.spawn.with_shell("sh ~/.config/awesome/monitors/monitors.sh")
+awful.spawn.with_shell("~/.config/awesome/monitors/monitors.sh")
 
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -455,11 +455,6 @@ clientkeys = mytable.join(
 	awful.key({ modkey }, "t", function(c)
 		c.ontop = not c.ontop
 	end, { description = "toggle keep on top", group = "client" }),
-	awful.key({ modkey }, "n", function(c)
-		-- The client currently has the input focus, so it cannot be
-		-- minimized, since minimized clients can't have the focus.
-		c.minimized = true
-	end, { description = "minimize", group = "client" }),
 	awful.key({ modkey }, "m", function(c)
 		c.maximized = not c.maximized
 		c:raise()

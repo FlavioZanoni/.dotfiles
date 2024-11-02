@@ -68,13 +68,7 @@ local function factory(args)
 		bg = "#CDCDCD",
 	}
 
-	bat_notification_charged_preset = {
-		title = "Battery full",
-		text = "You can unplug the cable",
-		timeout = 15,
-		fg = "#202020",
-		bg = "#CDCDCD",
-	}
+	bat_notification_charged_preset = {}
 
 	bat_now = {
 		status = "N/A",
