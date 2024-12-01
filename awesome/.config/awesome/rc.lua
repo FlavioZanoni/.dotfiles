@@ -20,6 +20,7 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 local mytable = awful.util.table or gears.table -- 4.{0,1} compatibility
 
 awful.spawn.with_shell("setxkbmap -layout us -variant altgr-intl")
+awful.spawn.with_shell("xset r rate 250 45")
 -- Monitor handling
 awful.spawn.with_shell("~/.config/awesome/monitors/monitors.sh")
 
@@ -62,7 +63,6 @@ local function run_once(cmd_arr)
 end
 
 run_once({ "kitty", "unclutter -root" }) -- comma-separated entries
-run_once({ "kitty", "xset r rate 250 45" })
 
 -- This function implements the XDG autostart specification
 --[[
