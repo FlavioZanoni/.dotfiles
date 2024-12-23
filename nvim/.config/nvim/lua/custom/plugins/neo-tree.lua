@@ -16,5 +16,16 @@ return {
       end,
     },
   },
-  opts = { 'filesystem', 'git_status' },
+  opts = {
+    filesystem = {
+      window = {
+        position = 'right',
+      },
+    },
+    git_status = {
+      window = {
+        position = 'right',
+      },
+    },
+  },
 }
