@@ -2,7 +2,8 @@ theme = NvimDark
 shell-integration = fish
 window-decoration = false
 gtk-titlebar = false
-window-save-state = always # not working on linux for now
+# not working on linux for now
+window-save-state = always
 confirm-close-surface = false
 window-inherit-working-directory = true
 
