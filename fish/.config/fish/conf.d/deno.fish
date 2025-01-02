@@ -1,0 +1,1 @@
+source "/home/flaggzz/.deno/env.fish"
