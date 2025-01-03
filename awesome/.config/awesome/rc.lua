@@ -20,7 +20,7 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 local mytable = awful.util.table or gears.table -- 4.{0,1} compatibility
 
 awful.spawn.with_shell("setxkbmap -layout us -variant altgr-intl")
-awful.spawn.with_shell("xset r rate 250 45")
+awful.spawn.with_shell("xset r rate 250 55")
 -- Monitor handling
 awful.spawn.with_shell("~/.config/awesome/monitors/monitors.sh")
 
@@ -62,7 +62,7 @@ local function run_once(cmd_arr)
 	end
 end
 
-run_once({ "kitty", "unclutter -root" }) -- comma-separated entries
+run_once({ "ghostty", "unclutter -root" }) -- comma-separated entries
 
 -- This function implements the XDG autostart specification
 --[[
@@ -85,7 +85,7 @@ local themes = {
 local chosen_theme = themes[1]
 local modkey = "Mod4"
 local altkey = "Mod1"
-local terminal = "kitty"
+local terminal = "ghostty"
 local vi_focus = false -- vi-like client focus https://github.com/lcpz/awesome-copycats/issues/275
 local cycle_prev = true -- cycle with only the previously focused client or all https://github.com/lcpz/awesome-copycats/issues/274
 
