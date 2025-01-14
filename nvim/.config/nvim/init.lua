@@ -122,6 +122,30 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+vim.api.nvim_create_autocmd('TermOpen', {
+  group = vim.api.nvim_create_augroup('Custom terminal', { clear = true }),
+  callback = function()
+    vim.opt.number = false
+    vim.opt.relativenumber = false
+    vim.cmd.startinsert()
+  end,
+})
+
+vim.keymap.set('n', '<space>st', function()
+  vim.cmd.vnew()
+  vim.cmd.term()
+  vim.cmd.wincmd 'J'
+  vim.api.nvim_win_set_height(0, 15)
+end)
+
+vim.api.nvim_create_autocmd('BufEnter', {
+  group = vim.api.nvim_create_augroup('TerminalInsertMode', { clear = true }),
+  pattern = 'term://*',
+  callback = function()
+    vim.cmd.startinsert()
+  end,
+})
+
 vim.api.nvim_create_autocmd('User', {
   pattern = 'GitConflictDetected',
   callback = function()
