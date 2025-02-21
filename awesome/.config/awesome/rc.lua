@@ -20,9 +20,10 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 local mytable = awful.util.table or gears.table -- 4.{0,1} compatibility
 
 awful.spawn.with_shell("setxkbmap -layout us -variant altgr-intl")
-awful.spawn.with_shell("xset r rate 250 55")
+awful.spawn.with_shell("xset r rate 250 65")
 -- Monitor handling
-awful.spawn.with_shell("~/.config/awesome/monitors/monitors.sh")
+awful.spawn.with_shell("~/.config/awesome/scripts/monitors/monitors.sh")
+awful.spawn.with_shell("~/.config/awesome/scripts/noMiddleClickPaste.sh")
 
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -371,10 +372,10 @@ globalkeys = mytable.join(
 
 	-- Screen brightness
 	awful.key({}, "XF86MonBrightnessUp", function()
-		os.execute("xbacklight -inc 10")
+		os.execute("light -A 10")
 	end, { description = "+10%", group = "hotkeys" }),
 	awful.key({}, "XF86MonBrightnessDown", function()
-		os.execute("xbacklight -dec 10")
+		os.execute("light -U 10")
 	end, { description = "-10%", group = "hotkeys" }),
 
 	-- ALSA volume control
@@ -463,10 +464,10 @@ clientkeys = mytable.join(
 		c.maximized_vertical = not c.maximized_vertical
 		c:raise()
 	end, { description = "(un)maximize vertically", group = "client" }),
-	awful.key({ modkey, "Shift" }, "m", function(c)
-		c.maximized_horizontal = not c.maximized_horizontal
-		c:raise()
-	end, { description = "(un)maximize horizontally", group = "client" })
+
+	awful.key({ modkey, "Shift" }, "m", function()
+		os.execute("~/.config/awesome/scripts/monitors/monitors.sh")
+	end, { description = "Run monitor script", group = "client" })
 )
 
 -- Bind all key numbers to tags.
