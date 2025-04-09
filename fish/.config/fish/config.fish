@@ -10,7 +10,7 @@ set -x PATH $PATH /home/flaggzz/.local/share/bob/nvim-bin
 set -x PATH $PATH /home/flaggzz/.cargo/bin
 
 # Java
-set -x JAVA_HOME /usr/lib/jvm/java-27-openjdk
+set -x JAVA_HOME /usr/lib/jvm/java-17-openjdk
 set -x PATH $JAVA_HOME/bin $PATH
 
 # Android
@@ -21,6 +21,15 @@ set -x PATH $PATH $ANDROID_HOME/cmdline-tools/latest/bin
 
 # asdf
 set -x PATH ~/.asdf/shims ~/.asdf/bin $PATH
+
+# idf
+set -x IDF_PATH ~/esp/esp-idf
+
+# pnpm
+set -gx PNPM_HOME "/home/flaggzz/.local/share/pnpm"
+if not string match -q -- $PNPM_HOME $PATH
+  set -gx PATH "$PNPM_HOME" $PATH
+end
 
 if not test -S ~/.ssh/ssh_auth_sock
     eval (ssh-agent -s | string split ';' | string trim)
@@ -36,16 +45,14 @@ function mkdirc
 end
 
 if status is-interactive
-    zoxide init --cmd cd fish | source 
+    zoxide init --cmd cd fish | source
 
-   # Aliases
+    # Aliases
     alias la="ls -la"
-    alias dcu="docker-compose up"
-    alias dcd="docker-compose down"
     alias pingle="gping google.com"
     #py
     alias mkpyenv="python -m venv python-env"
-    alias pyenv="source ./python-env/bin/activate"
+    alias pyenv="source ./python-env/bin/activate.fish"
     alias py="python"
     # platformio
     alias piom="pio device monitor"
@@ -53,11 +60,17 @@ if status is-interactive
     alias pioup="pio run -t upload"
     alias piodb="pio run -t compiledb"
     alias piomr="pio run -t upload && pio device monitor"
+    # idf
+    alias espstart="source ~/esp/esp-idf/export.fish"
+    # Docker
+    alias dprune="docker system prune -a"
 end
 
-# pnpm
-set -gx PNPM_HOME "/home/flaggzz/.local/share/pnpm"
-if not string match -q -- $PNPM_HOME $PATH
-  set -gx PATH "$PNPM_HOME" $PATH
+
+# Docker
+function dcu
+  docker-compose up $argv
 end
-# pnpm end
+function dcd
+  docker-compose down $argv
+end
