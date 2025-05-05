@@ -36,20 +36,18 @@ vim.schedule(function()
   vim.opt.clipboard = 'unnamedplus'
 end)
 
--- Enable break indent
 vim.opt.breakindent = true
 
 -- Save undo history
 vim.opt.undofile = true
 
 -- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
-vim.opt.ignorecase = true
+vim.opt.ignorecase = false
 vim.opt.smartcase = true
 
 -- Keep signcolumn on by default
 vim.opt.signcolumn = 'yes'
 
--- Decrease update time
 vim.opt.updatetime = 250
 
 -- Decrease mapped sequence wait time
@@ -185,31 +183,14 @@ vim.opt.rtp:prepend(lazypath)
 --
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
-  -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
-  -- init.lua. If you want these files, they are in the repository, so you can just download them and
-  -- place them in the correct locations.
-
-  -- NOTE: Next step on your Neovim journey: Add/Configure additional plugins for Kickstart
-  --
-  --  Here are some example plugins that I've included in the Kickstart repository.
-  --  Uncomment any of the lines below to enable them (you will need to restart nvim).
-  --
   require 'kickstart.plugins.debug',
   require 'kickstart.plugins.indent_line',
   require 'kickstart.plugins.lint',
   require 'kickstart.plugins.autopairs',
-  require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
-
-  -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
-  --    This is the easiest way to modularize your config.
-  --
-  --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-  --    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
+  require 'kickstart.plugins.gitsigns',
   { import = 'custom.plugins' },
 }, {
   ui = {
-    -- If you are using a Nerd Font: set icons to an empty table which will use the
-    -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
     icons = vim.g.have_nerd_font and {} or {
       cmd = '⌘',
       config = '🛠',
@@ -228,5 +209,18 @@ require('lazy').setup({
   },
 })
 
--- The line beneath this is called `modeline`. See `:help modeline`
+local macros_dir = vim.fn.stdpath 'config' .. '/lua/custom/macros'
+
+for _, file in ipairs(vim.fn.readdir(macros_dir)) do
+  if file:match '%.lua$' then
+    local macro_name = file:gsub('%.lua$', '')
+    local require_path = 'custom.macros.' .. macro_name
+    xpcall(function()
+      require(require_path)
+    end, function(err)
+      vim.api.nvim_err_writeln('Error loading macro ' .. require_path .. ': ' .. err)
+    end)
+  end
+end
+
 -- vim: ts=2 sts=2 sw=2 et
