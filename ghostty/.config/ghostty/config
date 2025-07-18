@@ -2,6 +2,11 @@ theme = NvimDark
 shell-integration = fish
 window-decoration = false
 gtk-titlebar = false
+gtk-adwaita=false
+
+window-padding-y = 10,0
+window-padding-x = 4
+
 # not working on linux for now
 window-save-state = always
 confirm-close-surface = false
