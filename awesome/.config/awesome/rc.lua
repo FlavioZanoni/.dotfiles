@@ -230,7 +230,7 @@ globalkeys = mytable.join(
 
 	-- X screen locker
 	awful.key({ modkey }, "p", function()
-		os.execute(scrlocker)
+		os.execute(slock)
 	end, { description = "lock screen", group = "hotkeys" }),
 
 	awful.key({ modkey }, "s", hotkeys_popup.show_help, { description = "show help", group = "awesome" }),
@@ -372,10 +372,10 @@ globalkeys = mytable.join(
 
 	-- Screen brightness
 	awful.key({}, "XF86MonBrightnessUp", function()
-		os.execute("light -A 10")
+		os.execute("brightnessctl -d amdgpu_bl1 set 10%+")
 	end, { description = "+10%", group = "hotkeys" }),
 	awful.key({}, "XF86MonBrightnessDown", function()
-		os.execute("light -U 10")
+		os.execute("brightnessctl -d amdgpu_bl1 set 10%-")
 	end, { description = "-10%", group = "hotkeys" }),
 
 	-- ALSA volume control
@@ -658,6 +658,20 @@ client.connect_signal("request::titlebars", function(c)
 		layout = wibox.layout.align.horizontal,
 	})
 end)
+
+-- Disable middle mouse btn
+root.buttons(gears.table.join(
+	awful.button({}, 2, function()
+		-- Clear primary selection when middle-click is attempted
+		awful.spawn.with_shell("echo -n '' | xsel -pi")
+	end),
+	-- Keep your other mouse bindings
+	awful.button({}, 3, function()
+		mymainmenu:toggle()
+	end),
+	awful.button({}, 4, awful.tag.viewnext),
+	awful.button({}, 5, awful.tag.viewprev)
+))
 
 -- Enable sloppy focus, so that focus follows mouse.
 client.connect_signal("mouse::enter", function(c)
