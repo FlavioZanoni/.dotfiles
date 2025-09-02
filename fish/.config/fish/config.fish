@@ -25,6 +25,11 @@ set -x PATH ~/.asdf/shims ~/.asdf/bin $PATH
 # idf
 set -x IDF_PATH ~/esp/esp-idf
 
+# go
+set -gx GOBIN ~/go/bin
+set -x GOPATH ~/go/bin
+set -x PATH $GOPATH $PATH
+
 # pnpm
 set -gx PNPM_HOME "/home/flaggzz/.local/share/pnpm"
 if not string match -q -- $PNPM_HOME $PATH
@@ -50,7 +55,7 @@ if status is-interactive
     # Aliases
     alias la="ls -la"
     alias pingle="gping google.com"
-    #py
+    # py
     alias mkpyenv="python -m venv python-env"
     alias pyenv="source ./python-env/bin/activate.fish"
     alias py="python"
@@ -61,11 +66,25 @@ if status is-interactive
     alias piodb="pio run -t compiledb"
     alias piomr="pio run -t upload && pio device monitor"
     # idf
-    alias espstart="source ~/esp/esp-idf/export.fish"
+    alias esps="source ~/esp/esp-idf/export.fish"
     # Docker
     alias dprune="docker system prune -a"
+    # git
+    alias gs="git status"
+    alias ga="git add ."
+    alias gc="git commit -m"
+    alias gp="git push"
+    alias gpl="git pull"
+    alias gco="git checkout"
+    alias gcode="git checkout dev"
+    alias gcom="git checkout main"
+    alias gl="git log --oneline --graph --all"
+    alias gst="git stash"
+    alias gstu="git stash --include-untracked"
+    alias gsta="git stash apply"
+    alias gstc="git stash clear"
+    alias gf="git fetch"
 end
-
 
 # Docker
 function dcu
@@ -77,5 +96,10 @@ end
 
 function ssh
     TERM=xterm-256color command ssh $argv
+end
+
+function mkgif -a input_file
+    set output_file (basename $input_file | sed 's/\.[^.]*$/.gif/')
+    ffmpeg -i $input_file -vf scale=320:-1 -r 10 -f image2pipe -vcodec ppm - | convert -delay 10 -loop 0 - $output_file
 end
 
