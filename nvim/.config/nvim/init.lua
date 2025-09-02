@@ -28,6 +28,10 @@ vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 vim.bo.softtabstop = 2
 
+-- indent and outdent with tab
+vim.keymap.set('v', '<Tab>', '>gv')
+vim.keymap.set('v', '<S-Tab>', '<gv')
+
 -- Sync clipboard between OS and Neovim.
 --  Schedule the setting after `UiEnter` because it can increase startup-time.
 --  Remove this option if you want your OS clipboard to remain independent.
@@ -42,7 +46,7 @@ vim.opt.breakindent = true
 vim.opt.undofile = true
 
 -- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
-vim.opt.ignorecase = false
+vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
 -- Keep signcolumn on by default
@@ -136,13 +140,14 @@ vim.keymap.set('n', '<space>st', function()
   vim.api.nvim_win_set_height(0, 15)
 end)
 
+--[[
 vim.api.nvim_create_autocmd('BufEnter', {
   group = vim.api.nvim_create_augroup('TerminalInsertMode', { clear = true }),
   pattern = 'term://*',
   callback = function()
     vim.cmd.startinsert()
   end,
-})
+}) ]]
 
 vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
   pattern = { '*' },
