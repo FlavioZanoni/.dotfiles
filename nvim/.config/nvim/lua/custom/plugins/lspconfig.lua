@@ -107,86 +107,59 @@ return {
       end,
     })
 
-    -- LSP servers and clients are able to communicate to each other what features they support.
-    --  By default, Neovim doesn't support everything that is in the LSP specification.
-    --  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
-    --  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 
-    local servers = {
-      clangd = {},
-      gopls = {},
-      pyright = {},
-      lua_ls = {
-        -- cmd = {...},
-        -- filetypes = { ...},
-        -- capabilities = {},
-        settings = {
-          Lua = {
-            completion = {
-              callSnippet = 'Replace',
-            },
-            -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-            -- diagnostics = { disable = { 'missing-fields' } },
+    -- Dynamic clangd
+    local esp_idf_path = os.getenv 'IDF_PATH'
+    vim.lsp.config['clangd'] = {
+      cmd = esp_idf_path and {
+        '/home/flaggzz/.espressif/tools/esp-clang/esp-18.1.2_20240912/esp-clang/bin/clangd',
+        '--background-index',
+        '--query-driver=**',
+      } or {
+        'clangd',
+        '--background-index',
+        '--clang-tidy',
+      },
+      filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda', 'proto' },
+      root_markers = esp_idf_path and { '.git', 'compile_commands.json', 'Makefile', 'idf_component.yml' }
+        or { '.git', 'compile_commands.json', '.clangd', '.clang-tidy' },
+      capabilities = capabilities,
+    }
+
+    vim.lsp.config['gopls'] = {
+      cmd = { 'gopls' },
+      filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },
+      root_markers = { 'go.mod', '.git' },
+      capabilities = capabilities,
+    }
+
+    vim.lsp.config['pyright'] = {
+      cmd = { 'pyright-langserver', '--stdio' },
+      filetypes = { 'python' },
+      root_markers = { 'pyproject.toml', 'setup.py', 'setup.cfg', 'requirements.txt', 'Pipfile', '.git' },
+      capabilities = capabilities,
+    }
+
+    vim.lsp.config['lua_ls'] = {
+      cmd = { 'lua-language-server' },
+      filetypes = { 'lua' },
+      root_markers = { { '.luarc.json', '.luarc.jsonc' }, '.git' },
+      capabilities = capabilities,
+      settings = {
+        Lua = {
+          completion = {
+            callSnippet = 'Replace',
           },
         },
       },
     }
 
     require('mason').setup()
-
-    local ensure_installed = vim.tbl_keys(servers or {})
-    vim.list_extend(ensure_installed, {})
-
     require('mason-lspconfig').setup {
-      ensure_installed = ensure_installed,
+      ensure_installed = { 'clangd', 'gopls', 'pyright', 'lua_ls' },
       automatic_installation = true,
-      handlers = {
-        function(server_name)
-          local server = servers[server_name] or {}
-          -- Apply base capabilities
-          server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-
-          -- === Conditional Clangd Setup ===
-          if server_name == 'clangd' then
-            local esp_idf_path = os.getenv 'IDF_PATH'
-            if esp_idf_path then
-              -- ESP-IDF specific clangd config
-              server.cmd = {
-                -- IMPORTANT: Update this path if your esp-clang location differs
-                '/home/flaggzz/.espressif/tools/esp-clang/esp-18.1.2_20240912/esp-clang/bin/clangd',
-                '--background-index',
-                '--query-driver=**', -- Adjust if needed based on ESP-IDF project structure
-              }
-              -- Prevent Neovim from changing directory based on a global .clangd file
-              server.root_dir = function(fname)
-                -- Use lspconfig's default search or a custom one for ESP-IDF projects
-                -- This example uses the default upward search for .git, compile_commands.json etc.
-                return require('lspconfig.util').root_pattern('.git', 'compile_commands.json', 'Makefile', 'idf_component.yml')(fname)
-                -- If you need a simpler root, uncomment below, but it might be too broad:
-                -- return require('lspconfig.util').find_git_ancestor(fname)
-              end
-              -- Add any other ESP-IDF specific settings here if needed
-              -- server.settings = { ... }
-            else
-              -- server.cmd = { 'clangd', '--background-index', '--clang-tidy' } -- Example default cmd
-              server.handlers = vim.tbl_deep_extend('force', server.handlers or {}, {
-                ['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-                  -- disable = { 'cppcoreguidelines-avoid-magic-numbers' } -- Example diagnostic disable
-                  -- Add your specific disable rule here if needed:
-                  -- disable = { "cpp copyright" }
-                }),
-              })
-              -- Use default root finding if not ESP-IDF
-              server.root_dir = require('lspconfig.util').root_pattern('.git', 'compile_commands.json', '.clangd', '.clang-tidy')
-            end
-          end
-          -- === End Conditional Clangd Setup ===
-
-          require('lspconfig')[server_name].setup(server)
-        end,
-      },
     }
   end,
 }
