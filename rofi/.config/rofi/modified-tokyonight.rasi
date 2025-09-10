@@ -31,11 +31,13 @@ mainbox {
 }
 
 configuration {
-  modi: "drun,calc,ssh,recursivebrowser";
+  modi: "drun,ssh,recursivebrowser,calc";
   show-icons: true;
   kb-mode-next: "super+l";
   kb-mode-previous: "super+h";
+  terminal: "ghostty";
 
+  ssh-command: "/home/flaggzz/.config/rofi/scripts/ssh.sh {host}";
   display-drun: "Apps";
   display-calc: "Calc";
   display-ssh: "SSH";

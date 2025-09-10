@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-Copyright 2020 Jaakko Luttinen
+# Copyright 2020 Jaakko Luttinen
 
 # All rights to https://github.com/jluttine/rofi-power-menu
 #
