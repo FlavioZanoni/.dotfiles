@@ -418,6 +418,18 @@ globalkeys = mytable.join(
 	end, { description = "copy gtk to terminal", group = "hotkeys" }),
 
 	-- rofi
+	awful.key({ modkey }, "p", function()
+		os.execute(string.format("$HOME/.config/rofi/scripts/power-menu.sh"))
+	end, { description = "show rofi powermenu", group = "launcher" }),
+
+	awful.key({ modkey }, "c", function()
+		os.execute(string.format("$HOME/.config/rofi/scripts/calc.sh"))
+	end, { description = "show rofi calc", group = "launcher" }),
+
+	awful.key({ "Control", "Shift" }, "p", function()
+		os.execute(string.format("clipmenu"))
+	end, { description = "launch clipmenu", group = "launcher" }),
+
 	awful.key({ modkey }, "r", function()
 		os.execute(string.format("rofi -show drun"))
 	end, { description = "show rofi", group = "launcher" }),
