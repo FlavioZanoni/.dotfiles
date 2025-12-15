@@ -1,44 +1,46 @@
 # Environment variables
 set -U fish_greeting
-set -x SSH_AUTH_SOCK ~/.ssh/ssh_auth_sock
-set -x PATH $PATH /home/flaggzz/.local/bin
+
+# SSH agent
+if not test -S ~/.ssh/ssh_auth_sock
+    eval (ssh-agent -c)
+    ln -sf $SSH_AUTH_SOCK ~/.ssh/ssh_auth_sock
+end
+set -gx SSH_AUTH_SOCK ~/.ssh/ssh_auth_sock
+
+set -gx PATH $PATH /home/flaggzz/.local/bin
 
 # Nvim
-set -x PATH $PATH /home/flaggzz/.local/share/bob/nvim-bin
+fish_add_path -a /home/flaggzz/.local/share/bob/nvim-bin
 
 # Rust
-set -x PATH $PATH /home/flaggzz/.cargo/bin
+fish_add_path -a /home/flaggzz/.cargo/bin
 
 # Java
-set -x JAVA_HOME /usr/lib/jvm/java-17-openjdk
-set -x PATH $JAVA_HOME/bin $PATH
+set -gx JAVA_HOME /usr/lib/jvm/java-11-openjdk
+fish_add_path $JAVA_HOME/bin
 
 # Android
-set -x ANDROID_HOME /opt/android-sdk
-set -x PATH $PATH $ANDROID_HOME/tools
-set -x PATH $PATH $ANDROID_HOME/platform-tools
-set -x PATH $PATH $ANDROID_HOME/cmdline-tools/latest/bin
+set -gx ANDROID_HOME /opt/android-sdk
+fish_add_path -a $ANDROID_HOME/tools
+fish_add_path -a $ANDROID_HOME/platform-tools
+fish_add_path -a $ANDROID_HOME/cmdline-tools/latest/bin
 
 # asdf
-set -x PATH ~/.asdf/shims ~/.asdf/bin $PATH
+fish_add_path ~/.asdf/shims ~/.asdf/bin
 
 # idf
-set -x IDF_PATH ~/esp/esp-idf
+set -gx IDF_PATH ~/esp/esp-idf
 
 # go
 set -gx GOBIN ~/go/bin
-set -x GOPATH ~/go/bin
-set -x PATH $GOPATH $PATH
+set -gx GOPATH ~/go
+fish_add_path $GOBIN
 
 # pnpm
 set -gx PNPM_HOME "/home/flaggzz/.local/share/pnpm"
-if not string match -q -- $PNPM_HOME $PATH
-  set -gx PATH "$PNPM_HOME" $PATH
-end
-
-if not test -S ~/.ssh/ssh_auth_sock
-    eval (ssh-agent -s | string split ';' | string trim)
-    ln -sf $SSH_AUTH_SOCK ~/.ssh/ssh_auth_sock
+if not contains $PNPM_HOME $PATH
+  fish_add_path -a $PNPM_HOME
 end
 
 function mkdirc
@@ -53,7 +55,8 @@ if status is-interactive
     zoxide init --cmd cd fish | source
 
     # Aliases
-    alias la="ls -la"
+    alias la="eza -la"
+    alias ls="eza"
     alias pingle="gping google.com"
     # py
     alias mkpyenv="python -m venv python-env"
@@ -62,11 +65,17 @@ if status is-interactive
     # platformio
     alias piom="pio device monitor"
     alias pioufs="pio run -t uploadfs"
-    alias pioup="pio run -t upload"
+    alias piou="pio run -t upload"
     alias piodb="pio run -t compiledb"
-    alias piomr="pio run -t upload && pio device monitor"
+    alias pioum="pio run -t upload && pio device monitor"
     # idf
     alias esps="source ~/esp/esp-idf/export.fish"
+    alias idb="idf.py build"
+    alias idbfm="idf.py build flash monitor"
+    alias idmc="idf.py menuconfig"
+    alias idf="idf.py flash"
+    alias idm="idf.py monitor"
+    alias idfc="idf.py fullclean"
     # Docker
     alias dprune="docker system prune -a"
     # git
@@ -84,6 +93,10 @@ if status is-interactive
     alias gsta="git stash apply"
     alias gstc="git stash clear"
     alias gf="git fetch"
+    alias gt="git tag -a"
+    alias gpt="git push origin tag"
+
+    alias pavu="pavucontrol"
 end
 
 # Docker
