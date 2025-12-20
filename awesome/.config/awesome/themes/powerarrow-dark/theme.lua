@@ -16,7 +16,6 @@ local my_table = awful.util.table or gears.table -- 4.{0,1} compatibility
 
 local theme = {}
 theme.dir = os.getenv("HOME") .. "/.config/awesome/themes/powerarrow-dark"
-theme.wallpaper = theme.dir .. "/wall.png"
 theme.font = "Terminus 9"
 theme.fg_normal = "#DDDDFF"
 theme.fg_focus = "#EA6F81"
@@ -58,14 +57,10 @@ theme.widget_cpu = theme.dir .. "/icons/cpu.png"
 theme.widget_temp = theme.dir .. "/icons/temp.png"
 theme.widget_net = theme.dir .. "/icons/net.png"
 theme.widget_hdd = theme.dir .. "/icons/hdd.png"
-theme.widget_music = theme.dir .. "/icons/note.png"
-theme.widget_music_on = theme.dir .. "/icons/note_on.png"
 theme.widget_vol = theme.dir .. "/icons/vol.png"
 theme.widget_vol_low = theme.dir .. "/icons/vol_low.png"
 theme.widget_vol_no = theme.dir .. "/icons/vol_no.png"
 theme.widget_vol_mute = theme.dir .. "/icons/vol_mute.png"
-theme.widget_mail = theme.dir .. "/icons/mail.png"
-theme.widget_mail_on = theme.dir .. "/icons/mail_on.png"
 theme.tasklist_plain_task_name = true
 theme.tasklist_disable_icon = true
 theme.useless_gap = dpi(0)
@@ -107,66 +102,6 @@ theme.cal = lain.widget.cal({
 		fg = theme.fg_normal,
 		bg = theme.bg_normal,
 	},
-})
-
--- Mail IMAP check
-local mailicon = wibox.widget.imagebox(theme.widget_mail)
---[[ commented because it needs to be set before use
-mailicon:buttons(my_table.join(awful.button({ }, 1, function () awful.spawn(mail) end)))
-theme.mail = lain.widget.imap({
-    timeout  = 180,
-    server   = "server",
-    mail     = "mail",
-    password = "keyring get mail",
-    settings = function()
-        if mailcount > 0 then
-            widget:set_markup(markup.font(theme.font, " " .. mailcount .. " "))
-            mailicon:set_image(theme.widget_mail_on)
-        else
-            widget:set_text("")
-            mailicon:set_image(theme.widget_mail)
-        end
-    end
-})
---]]
-
--- MPD
-local musicplr = awful.util.terminal .. " -title Music -e ncmpcpp"
-local mpdicon = wibox.widget.imagebox(theme.widget_music)
-mpdicon:buttons(my_table.join(
-	awful.button({ "Mod4" }, 1, function()
-		awful.spawn(musicplr)
-	end),
-	awful.button({}, 1, function()
-		os.execute("mpc prev")
-		theme.mpd.update()
-	end),
-	awful.button({}, 2, function()
-		os.execute("mpc toggle")
-		theme.mpd.update()
-	end),
-	awful.button({}, 3, function()
-		os.execute("mpc next")
-		theme.mpd.update()
-	end)
-))
-theme.mpd = lain.widget.mpd({
-	settings = function()
-		if mpd_now.state == "play" then
-			artist = " " .. mpd_now.artist .. " "
-			title = mpd_now.title .. " "
-			mpdicon:set_image(theme.widget_music_on)
-		elseif mpd_now.state == "pause" then
-			artist = " mpd "
-			title = "paused "
-		else
-			artist = ""
-			title = ""
-			mpdicon:set_image(theme.widget_music)
-		end
-
-		widget:set_markup(markup.font(theme.font, markup("#EA6F81", artist) .. title))
-	end,
 })
 
 -- MEM
@@ -336,14 +271,8 @@ function theme.at_screen_connect(s)
 			keyboardlayout,
 			spr,
 			arrl_ld,
-			wibox.container.background(mpdicon, theme.bg_focus),
-			wibox.container.background(theme.mpd.widget, theme.bg_focus),
-			arrl_dl,
-			volicon,
-			theme.volume.widget,
-			arrl_ld,
-			wibox.container.background(mailicon, theme.bg_focus),
-			--wibox.container.background(theme.mail.widget, theme.bg_focus),
+			wibox.container.background(volicon, theme.bg_focus),
+			wibox.container.background(theme.volume.widget, theme.bg_focus),
 			arrl_dl,
 			memicon,
 			mem.widget,
