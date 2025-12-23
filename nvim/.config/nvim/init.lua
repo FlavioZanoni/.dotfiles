@@ -32,6 +32,25 @@ vim.bo.softtabstop = 2
 vim.keymap.set('v', '<Tab>', '>gv')
 vim.keymap.set('v', '<S-Tab>', '<gv')
 
+-- alt move selected lines up and down
+vim.keymap.set('v', '<A-j>', ":m '>+1<CR>gv=gv")
+vim.keymap.set('v', '<A-k>', ":m '<-2<CR>gv=gv")
+-- alt move current line up and down
+vim.keymap.set('n', '<A-j>', ':m .+1<CR>==')
+vim.keymap.set('n', '<A-k>', ':m .-2<CR>==')
+-- resize terminal
+vim.keymap.set('n', '<A-j>', function()
+  if vim.bo.buftype == 'terminal' then
+    local h = vim.api.nvim_win_get_height(0)
+    vim.api.nvim_win_set_height(0, math.max(1, h - 1))
+  end
+end)
+vim.keymap.set('n', '<A-k>', function()
+  if vim.bo.buftype == 'terminal' then
+    vim.api.nvim_win_set_height(0, vim.api.nvim_win_get_height(0) + 1)
+  end
+end)
+
 -- Sync clipboard between OS and Neovim.
 --  Schedule the setting after `UiEnter` because it can increase startup-time.
 --  Remove this option if you want your OS clipboard to remain independent.
@@ -140,6 +159,16 @@ vim.keymap.set('n', '<space>st', function()
   vim.api.nvim_win_set_height(0, 15)
 end)
 
+vim.keymap.set('n', '<space>tr', function()
+  for _, w in ipairs(vim.api.nvim_list_wins()) do
+    local buf = vim.api.nvim_win_get_buf(w)
+    if vim.bo[buf].buftype == 'terminal' then
+      vim.api.nvim_win_set_height(w, 15)
+      return
+    end
+  end
+end, { desc = 'Terminal: reset height to 15' })
+
 --[[
 vim.api.nvim_create_autocmd('BufEnter', {
   group = vim.api.nvim_create_augroup('TerminalInsertMode', { clear = true }),
@@ -148,6 +177,8 @@ vim.api.nvim_create_autocmd('BufEnter', {
     vim.cmd.startinsert()
   end,
 }) ]]
+
+vim.keymap.set('v', 'p', '"_dP', { noremap = true })
 
 vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
   pattern = { '*' },
@@ -164,7 +195,7 @@ vim.api.nvim_create_autocmd('User', {
     end)
   end,
 })
--- [[ Install `lazy.nvim` plugin manager ]]
+-- [[ Install `lazy.nvw` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.uv.fs_stat(lazypath) then
