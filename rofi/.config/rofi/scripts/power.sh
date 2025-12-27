@@ -58,9 +58,6 @@ actions[hibernate]="systemctl hibernate"
 actions[reboot]="systemctl reboot"
 actions[shutdown]="systemctl poweroff"
 
-# By default, ask for confirmation for actions that are irreversible
-confirmations=(reboot shutdown logout)
-
 # By default, no dry run
 dryrun=false
 showsymbols=true
@@ -130,11 +127,6 @@ while true; do
         "--dry-run")
             dryrun=true
             shift 1
-            ;;
-        "--confirm")
-            IFS='/' read -ra confirmations <<< "$2"
-            check_valid "$1" "${confirmations[@]}"
-            shift 2
             ;;
         "--choices")
             IFS='/' read -ra show <<< "$2"

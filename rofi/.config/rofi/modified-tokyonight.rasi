@@ -27,7 +27,7 @@
 }
 
 mainbox {
-  children: [ inputbar, mode-switcher, listview ];
+  children: [ inputbar, mode-switcher, listview, message ];
 }
 
 configuration {
@@ -42,6 +42,10 @@ configuration {
   display-calc: "Calc";
   display-ssh: "SSH";
   display-recursivebrowser: "Files";
+
+  calc {
+      hint-result: "Res: ";
+  }
 }
 
 element-icon, element-text, scrollbar {
