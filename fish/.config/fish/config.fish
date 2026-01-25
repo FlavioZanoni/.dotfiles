@@ -58,6 +58,7 @@ if status is-interactive
     alias la="eza -la"
     alias ls="eza"
     alias pingle="gping google.com"
+    alias srcf="source ~/.config/fish/config.fish"
     # py
     alias mkpyenv="python -m venv python-env"
     alias pyenv="source ./python-env/bin/activate.fish"
@@ -78,6 +79,7 @@ if status is-interactive
     alias idfc="idf.py fullclean"
     # Docker
     alias dprune="docker system prune -a"
+    alias dps="docker ps"
     # git
     alias gs="git status"
     alias ga="git add ."
@@ -106,6 +108,18 @@ end
 function dcd
   docker-compose down $argv
 end
+function drs
+  docker restart $argv
+end
+complete -c drs -f -a "(docker ps -a --format '{{.Names}}')"
+function dls
+  set -l tail_count 20
+  if set -q argv[2]
+    set tail_count $argv[2]
+  end
+  docker logs $argv[1] --tail $tail_count
+end
+complete -c dls -f -a "(docker ps -a --format '{{.Names}}')"
 
 function ssh
     TERM=xterm-256color command ssh $argv
