@@ -16,9 +16,8 @@ fish_add_path -a /home/flaggzz/.local/share/bob/nvim-bin
 # Rust
 fish_add_path -a /home/flaggzz/.cargo/bin
 
-# Java
-set -gx JAVA_HOME /usr/lib/jvm/java-11-openjdk
-fish_add_path $JAVA_HOME/bin
+# let asdf control Java
+set -e JAVA_HOME
 
 # Android
 set -gx ANDROID_HOME /opt/android-sdk
@@ -89,7 +88,7 @@ if status is-interactive
     alias gco="git checkout"
     alias gcode="git checkout dev"
     alias gcom="git checkout main"
-    alias gl="git log --oneline --graph --all"
+    alias gl="git log --oneline --graph"
     alias gst="git stash"
     alias gstu="git stash --include-untracked"
     alias gsta="git stash apply"
@@ -97,6 +96,8 @@ if status is-interactive
     alias gf="git fetch"
     alias gt="git tag -a"
     alias gpt="git push origin tag"
+    alias gcrt="git config pull.rebase = true"
+    alias gcrf="git config pull.rebase = false"
 
     alias pavu="pavucontrol"
 end
@@ -105,8 +106,14 @@ end
 function dcu
   docker-compose up $argv
 end
+function dcud
+  docker-compose -f docker-compose.dev.yml up $argv
+end
 function dcd
-  docker-compose down $argv
+  docker-compose down --remove-orphans $argv
+end
+function dcdd
+  docker-compose -f docker-compose.dev.yml down --remove-orphans $argv
 end
 function drs
   docker restart $argv
@@ -130,3 +137,6 @@ function mkgif -a input_file
     ffmpeg -i $input_file -vf scale=320:-1 -r 10 -f image2pipe -vcodec ppm - | convert -delay 10 -loop 0 - $output_file
 end
 
+# bun
+set --export BUN_INSTALL "$HOME/.bun"
+set --export PATH $BUN_INSTALL/bin $PATH

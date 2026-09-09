@@ -153,10 +153,24 @@ vim.api.nvim_create_autocmd('TermOpen', {
 })
 
 vim.keymap.set('n', '<space>st', function()
-  vim.cmd.vnew()
-  vim.cmd.term()
-  vim.cmd.wincmd 'J'
-  vim.api.nvim_win_set_height(0, 15)
+  local has_term = false
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    local buf = vim.api.nvim_win_get_buf(win)
+    if vim.bo[buf].buftype == 'terminal' then
+      has_term = true
+      break
+    end
+  end
+
+  if has_term then
+    vim.cmd.vnew()
+    vim.cmd.term()
+  else
+    vim.cmd.vnew()
+    vim.cmd.term()
+    vim.cmd.wincmd 'J'
+    vim.api.nvim_win_set_height(0, 15)
+  end
 end)
 
 vim.keymap.set('n', '<space>tr', function()
