@@ -93,6 +93,7 @@ The existing standalone Rofi configuration remains available to other launchers.
 | Super + f / m | Toggle fullscreen / maximized |
 | Super + q | Close window |
 | Super + Return / r | Terminal / app launcher |
+| Super + p | Power menu (shut down, reboot, suspend, lock…) |
 | Super + c | Rofi calculator (copies result to clipboard) |
 | Ctrl + Shift + p | Clipboard history (cliphist via Rofi, Enter copies) |
 | Super + Shift + c | Centre a floating window |

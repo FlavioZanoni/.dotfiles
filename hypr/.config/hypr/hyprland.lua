@@ -57,6 +57,7 @@ end
 
 exec("SUPER + Return", "~/.config/hypr/scripts/open-terminal.sh")
 exec("SUPER + R", "rofi -show drun -theme ~/.config/hypr/rofi.rasi")
+exec("SUPER + P", "rofi -show powermenu -modi powermenu:~/.config/rofi/scripts/power.sh -theme ~/.config/hypr/rofi.rasi")
 exec("SUPER + C", "rofi -show calc -modi calc -no-show-match -no-sort -theme ~/.config/hypr/rofi.rasi -calc-command \"echo -n '{result}' | wl-copy\"")
 exec("CTRL + SHIFT + P", "sh -c 'cliphist list | rofi -dmenu -theme ~/.config/hypr/rofi.rasi -theme-str \"window { width: 900px; }\" -theme-str \"listview { lines: 12; }\" -p  | cliphist decode | wl-copy'")
 exec("SUPER + B", "pkill -USR1 -x waybar")
