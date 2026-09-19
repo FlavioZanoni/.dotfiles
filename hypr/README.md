@@ -26,7 +26,8 @@ Screenshots: `grim`, `slurp`, `wl-clipboard`. Install missing tools with:
 sudo pacman -S --needed grim slurp wl-clipboard cliphist rofi-calc
 ```
 Optional shortcut dependencies: `wireplumber` (`wpctl`), `brightnessctl`,
-`hyprlock`, `grim`, `slurp`, and `wl-clipboard`. Configure Hyprlock before using
+`grim`, `slurp`, and `wl-clipboard`. Lock screen is qylock (Pixel Sakura theme
+in `~/.local/share/qylock-themes/`, selected via `~/.config/qylock/theme`);
 the lock shortcut. The top bar starts on login; animations, blur and shadows are disabled.
 
 On Arch, install the bar and set the login shell with:
@@ -110,7 +111,7 @@ The existing standalone Rofi configuration remains available to other launchers.
 | Super + left/right mouse drag | Move/resize |
 | Ctrl + Space | Dismiss all notifications |
 | Super + n | Restore last notification |
-| Super + g | Lock (requires Hyprlock) |
+| Super + g | Lock (qylock Pixel Sakura) |
 | Super + Shift + s | Region screenshot to clipboard |
 | Super + Ctrl + r | Reload configuration |
 

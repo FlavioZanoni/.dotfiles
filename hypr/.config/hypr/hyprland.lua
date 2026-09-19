@@ -82,7 +82,7 @@ exec("SUPER + CTRL + R", "hyprctl reload")
 exec("SUPER + SHIFT + M", "hyprctl reload")
 exec("CTRL + Space", "makoctl dismiss --all")
 exec("SUPER + N", "makoctl restore")
-exec("SUPER + G", "hyprlock")
+exec("SUPER + G", "~/.local/share/quickshell-lockscreen/lock.sh")
 exec("SUPER + SHIFT + S", "sh -c 'area=$(slurp -b 000000a0) && grim -g \"$area\" - | wl-copy'")
 
 for i = 1, 10 do
