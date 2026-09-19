@@ -1,0 +1,27 @@
+configuration {
+    modi: "drun,run";
+    show-icons: false;
+    display-drun: "Apps";
+    display-run: "Run";
+    drun-display-format: "{name}";
+    kb-remove-to-eol: "";
+    kb-accept-entry: "Control+m,Return,KP_Enter";
+    kb-row-down: "Down,Control+j";
+    kb-row-up: "Up,Control+k";
+}
+* {
+    font: "monospace 12";
+    background-color: #14161b;
+    text-color: #e0e2ea;
+    border-color: #ffffff;
+}
+window { width: 540px; border: 1px; padding: 18px; }
+mainbox { children: [ inputbar, listview ]; spacing: 12px; }
+inputbar { children: [ prompt, entry ]; spacing: 12px; padding: 6px; }
+prompt { text-color: #a6dbff; }
+entry { placeholder: "Search applications…"; }
+listview { lines: 8; columns: 1; scrollbar: false; spacing: 3px; }
+element { padding: 9px; children: [ element-text ]; }
+element-text { background-color: transparent; text-color: inherit; }
+element selected.normal { background-color: #282b32; text-color: #ffffff; }
+element selected.active { background-color: #282b32; text-color: #ffffff; }

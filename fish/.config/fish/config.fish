@@ -1,12 +1,17 @@
 # Environment variables
 set -U fish_greeting
 
-# SSH agent
-if not test -S ~/.ssh/ssh_auth_sock
-    eval (ssh-agent -c)
-    ln -sf $SSH_AUTH_SOCK ~/.ssh/ssh_auth_sock
+# SSH agent: single instance owned by the systemd user service
+# (systemd/.config/systemd/user/ssh-agent.service) with a stable socket.
+set -gx SSH_AUTH_SOCK "$XDG_RUNTIME_DIR/ssh-agent.socket"
+if not test -S $SSH_AUTH_SOCK
+    # Fallback for sessions outside the systemd user manager.
+    set -gx SSH_AUTH_SOCK ~/.ssh/ssh_auth_sock
+    if not test -S $SSH_AUTH_SOCK
+        eval (ssh-agent -c)
+        ln -sf $SSH_AUTH_SOCK ~/.ssh/ssh_auth_sock
+    end
 end
-set -gx SSH_AUTH_SOCK ~/.ssh/ssh_auth_sock
 
 set -gx PATH $PATH /home/flaggzz/.local/bin
 

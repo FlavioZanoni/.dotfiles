@@ -1,0 +1,24 @@
+font=monospace 10
+background-color=#1d2021
+text-color=#ebdbb2
+width=340
+height=140
+border-size=1
+border-color=#504945
+border-radius=0
+padding=10
+margin=12
+anchor=top-right
+icons=0
+actions=1
+history=1
+max-history=30
+layer=overlay
+text-alignment=left
+default-timeout=5000
+ignore-timeout=1
+max-visible=2
+
+[urgency=high]
+border-color=#cc241d
+default-timeout=0
