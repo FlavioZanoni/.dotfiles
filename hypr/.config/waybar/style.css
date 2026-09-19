@@ -1,5 +1,5 @@
 * {
-    font-family: monospace;
+    font-family: "JetBrainsMono Nerd Font", monospace;
     font-size: 12px;
     min-height: 0;
     border: none;
@@ -14,9 +14,9 @@ window#waybar {
     border-bottom: 1px solid #34363b;
 }
 #custom-launcher {
-    font-size: 20px;
+    font-size: 18px;
     padding: 0 12px;
-    color: #a6dbff;
+    color: #f7768e;
 }
 #workspaces button {
     padding: 0 10px;

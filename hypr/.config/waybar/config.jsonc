@@ -9,7 +9,7 @@
     "modules-center": [],
     "modules-right": ["network", "cpu", "custom/gpu", "memory", "wireplumber", "tray", "clock"],
     "custom/launcher": {
-        "format": "≡",
+        "format": "",
         "tooltip-format": "Applications · Super+R",
         "on-click": "rofi -show drun -theme ~/.config/hypr/rofi.rasi"
     },

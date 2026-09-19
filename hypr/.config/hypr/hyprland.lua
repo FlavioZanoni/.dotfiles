@@ -16,9 +16,9 @@ hl.env("HYPRCURSOR_SIZE", "20")
 hl.env("TERMINAL", "kitty")
 hl.config({
     general = {
-        layout = "dwindle", gaps_in = 3, gaps_out = 6, border_size = 1,
+        layout = "dwindle", gaps_in = 0, gaps_out = 0, border_size = 1,
         resize_on_border = true,
-        col = { active_border = "rgba(ffffffff)", inactive_border = "rgba(34363bff)" },
+        col = { active_border = "rgba(f7768eff)", inactive_border = "rgba(34363bff)" },
     },
     decoration = { rounding = 0, blur = { enabled = false }, shadow = { enabled = false } },
     animations = { enabled = false },
@@ -55,10 +55,10 @@ for _, motion in ipairs({
     bind("SUPER + CTRL + ALT + " .. key, hl.dsp.window.resize({ x = dx, y = dy, relative = true }), true)
 end
 
-exec("SUPER + Return", "kitty")
+exec("SUPER + Return", "~/.config/hypr/scripts/open-terminal.sh")
 exec("SUPER + R", "rofi -show drun -theme ~/.config/hypr/rofi.rasi")
 exec("SUPER + C", "rofi -show calc -modi calc -no-show-match -no-sort -theme ~/.config/hypr/rofi.rasi -calc-command \"echo -n '{result}' | wl-copy\"")
-exec("CTRL + SHIFT + P", "sh -c 'cliphist list | rofi -dmenu -theme ~/.config/hypr/rofi.rasi -p Clipboard | cliphist decode | wl-copy'")
+exec("CTRL + SHIFT + P", "sh -c 'cliphist list | rofi -dmenu -theme ~/.config/hypr/rofi.rasi -theme-str \"window { width: 900px; }\" -theme-str \"listview { lines: 12; }\" -p  | cliphist decode | wl-copy'")
 exec("SUPER + B", "pkill -USR1 -x waybar")
 bind("SUPER + Q", hl.dsp.window.close())
 bind("SUPER + F", hl.dsp.window.fullscreen({ mode = "fullscreen", action = "toggle" }))
@@ -101,9 +101,14 @@ bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl set 10%-"), true)
 
 hl.window_rule({ name = "picture-in-picture", match = { title = "^(Picture-in-Picture|Picture in picture)$" },
     float = true, size = "30% 30%", pin = true })
+-- Remember the last focused terminal's directory for Super+Return.
+hl.on("window.active", function()
+    hl.exec_cmd("sh ~/.config/hypr/scripts/track-terminal-cwd.sh")
+end)
 hl.on("hyprland.start", function()
     hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
     hl.exec_cmd("pgrep -x mako >/dev/null || mako")
+    hl.exec_cmd("pgrep -x hyprpaper >/dev/null || hyprpaper")
     hl.exec_cmd("pgrep -f 'wl-paste --type text --watch cliphist store' >/dev/null || wl-paste --type text --watch cliphist store")
     hl.exec_cmd("pgrep -f 'wl-paste --type image --watch cliphist store' >/dev/null || wl-paste --type image --watch cliphist store")
     hl.exec_cmd("sh ~/.config/hypr/scripts/start-bar.sh")

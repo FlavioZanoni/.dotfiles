@@ -39,6 +39,11 @@ sh ~/.config/hypr/scripts/start-bar.sh
 
 The login shell changes at the next login. New Kitty windows use Fish immediately.
 Kitty is the default terminal (`TERMINAL=kitty`, `Super+Return`, xdg-terminal-exec).
+
+Wallpapers go in `~/Pictures/wallpapers/`. Edit the `wallpaper {}` blocks in
+`hypr/.config/hypr/hyprpaper.conf`, then restart it (`pkill -x hyprpaper; hyprpaper`).
+Hyprpaper starts automatically at login. Note: 0.8 uses `wallpaper { monitor, path }`
+blocks; `hyprctl hyprpaper reload` is not supported in this version.
 The existing `fish/` package supplies the Fish configuration and Tide prompt;
 `fish/.config/fish/conf.d/nvim-dark.fish` matches its colours to Nvim Dark.
 Kitty uses the same Nvim Dark palette as the repository's Ghostty configuration.
@@ -56,7 +61,9 @@ switch, click the launcher to open Rofi, click volume to mute, or scroll volume
 to adjust it. Click the clock to toggle the detailed date; hover for a calendar.
 `Super+B` hides/shows the bar.
 
-`Super+R` opens Rofi with a matching Nvim Dark theme and `Ctrl+j/k` selection.
+`Super+R` opens Rofi with the Tokyo Night theme from the repository's `rofi/`
+package (font adjusted to the installed JetBrainsMono Nerd Font, terminal set
+to Kitty, `Ctrl+j/k` selection). Mode-switch with `Super+l/h`.
 The existing standalone Rofi configuration remains available to other launchers.
 
 ## Displays
