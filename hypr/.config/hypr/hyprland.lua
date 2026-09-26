@@ -83,7 +83,7 @@ exec("SUPER + SHIFT + M", "hyprctl reload")
 exec("CTRL + Space", "makoctl dismiss --all")
 exec("SUPER + N", "makoctl restore")
 exec("SUPER + G", "~/.local/share/quickshell-lockscreen/lock.sh")
-exec("SUPER + SHIFT + S", "sh -c 'area=$(slurp -b 000000a0) && grim -g \"$area\" - | wl-copy'")
+exec("SUPER + SHIFT + S", "~/.config/hypr/scripts/screenshot.sh")
 
 for i = 1, 10 do
     bind("SUPER + " .. (i % 10), hl.dsp.focus({ workspace = i }))
