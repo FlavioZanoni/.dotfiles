@@ -102,6 +102,10 @@ bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl set 10%-"), true)
 
 hl.window_rule({ name = "picture-in-picture", match = { title = "^(Picture-in-Picture|Picture in picture)$" },
     float = true, size = "30% 30%", pin = true })
+-- Chromium's "... is sharing your screen" bar: its Hide button doesn't work on
+-- Wayland, so park it on a hidden special workspace. Stop sharing from the app.
+hl.window_rule({ name = "share-indicator", match = { title = ".*is sharing (your screen|a window|this tab)\\.?$" },
+    workspace = "special:share-indicator silent", no_initial_focus = true })
 -- Remember the last focused terminal's directory for Super+Return.
 hl.on("window.active", function()
     hl.exec_cmd("sh ~/.config/hypr/scripts/track-terminal-cwd.sh")
